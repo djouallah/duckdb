@@ -81,7 +81,7 @@ column = results["SETTLEMENTDATE"]
 now = str (column.max())
 st.subheader("Nem  Today: " + now)
 
-
+#localdate is just a stuid hack, Javascript read datetime as UTC not local time :(
 import altair as alt
 c = alt.Chart(results).mark_area().encode( x='LOCALDATE:T', y='mwh:Q',
                                           tooltip=['LOCALDATE','mwh']).properties(
