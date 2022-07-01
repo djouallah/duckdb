@@ -60,7 +60,7 @@ import duckdb
 from deltalake import DeltaTable
 
 # Define the Path to your Delta Table.
-table_path = "C:/xxx"
+table_path = "/xxx"
 load(table_path)
 # Get table as pyarrow table
 dt = DeltaTable(table_path).to_pyarrow_table()
