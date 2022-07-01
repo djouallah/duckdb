@@ -10,7 +10,7 @@ from deltalake.writer import write_deltalake
 import re ,shutil
 from urllib.request import urlopen
 col1, col2 = st.columns([3, 1])
-col1.button("Refresh")
+
 
 def get_file_path(filename):
     return os.path.join(tempfile.gettempdir(), filename)
@@ -105,7 +105,8 @@ def download_link(object_to_download, download_filename, download_link_text):
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
 
-# Examples
+col1.button("Refresh")
+
 tmp_download_link = download_link(results, 'YOUR_DF.csv', 'Export results')
 col2.markdown(tmp_download_link, unsafe_allow_html=True)
 
