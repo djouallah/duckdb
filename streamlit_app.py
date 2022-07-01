@@ -9,7 +9,7 @@ from deltalake import DeltaTable
 from deltalake.writer import write_deltalake
 import re ,shutil
 from urllib.request import urlopen
-col1, col2 = st.columns([4, 1])
+col1, col2 = st.columns([6, 1])
 
 
 def get_file_path(filename):
