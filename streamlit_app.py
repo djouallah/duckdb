@@ -14,6 +14,7 @@ col1, col2 = st.columns([1, 1])
 
 def get_file_path(filename):
     return os.path.join(tempfile.gettempdir(), filename)
+@st.experimental_memo
 def load(Path):    
     
     url = "http://nemweb.com.au/Reports/Current/Dispatch_SCADA/"
@@ -61,11 +62,14 @@ def load(Path):
             #print(xx)
             write_deltalake(table_path, xx,mode='append',partition_by=['Date'])
             
+table_path = "xxx/"
+load(table_path)
+            
+################### Query the Table    ##################################        
 import duckdb 
 from deltalake import DeltaTable
 # Define the Path to your Delta Table.
-table_path = "xxx/"
-load(table_path)
+
 # Get table as pyarrow table
 dt = DeltaTable(table_path).to_pyarrow_table()
 
