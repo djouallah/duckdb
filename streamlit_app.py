@@ -79,8 +79,7 @@ Select SETTLEMENTDATE, sum(mwh) as mwh from  xx group by all order by SETTLEMENT
 results = results.to_pandas()
 column = results["SETTLEMENTDATE"]
 now = str (column.max())
-col1.subheader("Nem  Today: " + now)
-col2.subheader(" ")
+st.subheader("Nem  Today: " + now)
 
 
 import altair as alt
