@@ -74,7 +74,7 @@ dt = DeltaTable(table_path).to_pyarrow_table()
 con = duckdb.connect()
 results =con.execute('''
 with xx as (Select SETTLEMENTDATE, DUID,MIN(SCADAVALUE) as mwh from  dt group by all)
-Select SETTLEMENTDATE, sum(mwh) as mwh from  xx group by all order by SETTLEMENTDATE
+Select SETTLEMENTDATE, sum(mwh) as mwh from  xx group by all order by SETTLEMENTDATE desc
 ''').arrow()
 results = results.to_pandas()
 column = results["SETTLEMENTDATE"]
