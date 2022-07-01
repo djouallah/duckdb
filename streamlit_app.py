@@ -73,8 +73,8 @@ dt = DeltaTable(table_path).to_pyarrow_table()
 
 con = duckdb.connect()
 results =con.execute('''
-with xx as (Select SETTLEMENTDATE, DUID,MIN(SCADAVALUE) as mwh from  dt group by all)
-Select SETTLEMENTDATE,DUID, sum(mwh) as mwh from  xx group by all order by SETTLEMENTDATE desc
+with xx as (Select (SETTLEMENTDATE - INTERVAL 5 HOUR) as SETTLEMENTDATE , DUID,MIN(SCADAVALUE) as mwh from  dt group by all)
+Select SETTLEMENTDATE, sum(mwh) as mwh from  xx group by all order by SETTLEMENTDATE desc
 ''').arrow()
 results = results.to_pandas()
 column = results["SETTLEMENTDATE"]
@@ -83,8 +83,8 @@ st.subheader("Nem  Today: " + now)
 
 
 import altair as alt
-c = alt.Chart(results).mark_area().encode( x='SETTLEMENTDATE:T', y='mwh:Q',color='DUID',
-                                          tooltip=['SETTLEMENTDATE','DUID', 'mwh']).properties(
+c = alt.Chart(results).mark_area().encode( x='SETTLEMENTDATE:T', y='mwh:Q',
+                                          tooltip=['SETTLEMENTDATE','mwh']).properties(
                                             width=1200,
                                             height=600)
 st.write(c)
