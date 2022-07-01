@@ -77,7 +77,10 @@ with xx as (Select SETTLEMENTDATE, DUID,MIN(SCADAVALUE) as mwh from  dt group by
 Select SETTLEMENTDATE, sum(mwh) as mwh from  xx group by all
 ''').arrow()
 results = results.to_pandas()
-#print(results)
+column = results["SETTLEMENTDATE"]
+now = column.max()
+st.subheader("Nem Power Generation Today: " + now)
+
 
 import altair as alt
 c = alt.Chart(results).mark_line().encode( x='SETTLEMENTDATE:T', y='mwh:Q')
@@ -103,5 +106,5 @@ def download_link(object_to_download, download_filename, download_link_text):
 
 
 # Examples
-tmp_download_link = download_link(results, 'YOUR_DF.csv', 'Export RAW Data')
+tmp_download_link = download_link(results, 'YOUR_DF.csv', 'Export results')
 col2.markdown(tmp_download_link, unsafe_allow_html=True)
