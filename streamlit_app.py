@@ -84,7 +84,7 @@ st.subheader("Nem  Today: " + now)
 
 import altair as alt
 c = alt.Chart(results).mark_area().encode( x='LOCALDATE:T', y='mwh:Q',
-                                          tooltip=['SETTLEMENTDATE','mwh']).properties(
+                                          tooltip=['LOCALDATE','mwh']).properties(
                                             width=1200,
                                             height=600)
 st.write(c)
