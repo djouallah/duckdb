@@ -85,8 +85,8 @@ st.subheader("Nem  Today: " + now)
 import altair as alt
 c = alt.Chart(results).mark_area().encode( x='SETTLEMENTDATE:T', y='mwh:Q',color='DUID',
                                           tooltip=['SETTLEMENTDATE','DUID', 'mwh']).properties(
-                                            width=800,
-                                            height=500)
+                                            width=900,
+                                            height=700)
 st.write(c)
 #download
 def download_link(object_to_download, download_filename, download_link_text):
