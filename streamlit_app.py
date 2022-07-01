@@ -103,5 +103,5 @@ def download_link(object_to_download, download_filename, download_link_text):
 
 
 # Examples
-tmp_download_link = download_link(result, 'YOUR_DF.csv', 'Export RAW Data')
+tmp_download_link = download_link(results, 'YOUR_DF.csv', 'Export RAW Data')
 col2.markdown(tmp_download_link, unsafe_allow_html=True)
