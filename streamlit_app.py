@@ -1,4 +1,4 @@
-import os
+import os,base64
 import streamlit as st
 from datetime import datetime, date, timedelta
 import urllib.request as urllib2
