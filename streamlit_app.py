@@ -76,4 +76,5 @@ results = results.to_pandas()
 #print(results)
 
 import altair as alt
-alt.Chart(results).mark_line().encode( x='SETTLEMENTDATE:T', y='mwh:Q')
+c = alt.Chart(results).mark_line().encode( x='SETTLEMENTDATE:T', y='mwh:Q')
+st.write(c)
