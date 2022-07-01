@@ -57,9 +57,10 @@ def load(Path):
             xx=tb.cast(target_schema=my_schema)
             #print(xx)
             write_deltalake(table_path, xx,mode='append',partition_by=['Date'])
+            
 import duckdb 
 from deltalake import DeltaTable
-
+button("Refresh")
 # Define the Path to your Delta Table.
 table_path = "xxx/"
 load(table_path)
