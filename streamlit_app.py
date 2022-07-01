@@ -78,7 +78,7 @@ Select SETTLEMENTDATE, sum(mwh) as mwh from  xx group by all
 ''').arrow()
 results = results.to_pandas()
 column = results["SETTLEMENTDATE"]
-now = column.max()
+now = str (column.max())
 st.subheader("Nem Power Generation Today: " + now)
 
 
