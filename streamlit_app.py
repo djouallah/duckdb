@@ -35,7 +35,7 @@ def load(Path):
 
     files_to_upload = list(set(filelist) - set(current))
     files_to_upload = list(dict.fromkeys(files_to_upload)) 
-    print(str(len(files_to_upload)) + ' New File Loaded')
+    st.write(str(len(files_to_upload)) + ' New File Loaded')
     if len(files_to_upload) != 0 :
       for x in files_to_upload:
             with urlopen(url+x) as source, open(get_file_path(x), 'w+b') as target:
