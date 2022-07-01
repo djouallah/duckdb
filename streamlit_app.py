@@ -80,6 +80,7 @@ results = results.to_pandas()
 column = results["SETTLEMENTDATE"]
 now = str (column.max())
 col1.subheader("Nem Power Generation Today: " + now)
+col2.subheader(" ")
 
 
 import altair as alt
