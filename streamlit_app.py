@@ -109,8 +109,8 @@ def download_link(object_to_download, download_filename, download_link_text):
 
 
 col1.button("Refresh")
-
-tmp_download_link = download_link(results, 'YOUR_DF.csv', 'Export results')
+df=results['SETTLEMENTDATE','mwh']
+tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Export results')
 col2.markdown(tmp_download_link, unsafe_allow_html=True)
 
 link='[Blog](https://datamonkeysite.com/2022/06/28/using-delta-lake-with-python/)'
