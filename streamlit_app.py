@@ -42,7 +42,7 @@ def getfiles(Path,url):
     files_to_upload = list(dict.fromkeys(files_to_upload)) 
     return files_to_upload
 
-@st.experimental_memo
+
 def load(files_to_upload,table_path,url): 
     if len(files_to_upload) != 0 :
       for x in files_to_upload:
@@ -76,10 +76,15 @@ load(files_to_upload,table_path,url)
 
 
 ################### Query the Table    ##################################        
-
+@st.experimental_memo
 # Get table as pyarrow table
-dt = DeltaTable(table_path).to_pyarrow_table()
+def read(files_to_upload,table_path): 
+     dt = DeltaTable(table_path).to_pyarrow_table()
+     return df
 
+
+###########################################################################
+dt = read(files_to_upload,table_path)
 # Query arrow table as an ordinary SQL Table.
 
 con = duckdb.connect()
@@ -125,15 +130,4 @@ link='[Data Source](http://nemweb.com.au/Reports/Current/Dispatch_SCADA/)'
 col1.markdown(link,unsafe_allow_html=True)
 
 st.write(files_to_upload)
-@st.cache
-def convert_df(df):
-     # IMPORTANT: Cache the conversion to prevent computation on every rerun
-    return df.to_csv().encode('utf-8')
 
-csv = convert_df(df)
-col2.download_button(
-     label="Download data as CSV",
-     data=csv,
-     file_name='large_df.csv',
-     mime='text/csv',
- )
