@@ -18,7 +18,7 @@ st.set_page_config(
     layout="wide",
 )
 table_path = "xxx/"
-st_autorefresh(interval=2 * 60 * 1000, key="dataframerefresh")
+st_autorefresh(interval=4 * 60 * 1000, key="dataframerefresh")
 
 # dashboard title
 st.title("Example of Delta Table and DuckDB")
@@ -72,7 +72,7 @@ link='[Blog](https://datamonkeysite.com/2022/06/28/using-delta-lake-with-python/
 col1.markdown(link,unsafe_allow_html=True)
 
 ####################################### ETL#############################################################################
-st.subheader("Downloading New files from AEMO website ")
+st.subheader("Downloading New files from AEMO website, Data will be refreshed in 5 minutes, or refresh your browser ")
 def get_file_path(filename):
     return os.path.join(tempfile.gettempdir(), filename)
 
