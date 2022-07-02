@@ -80,7 +80,7 @@ load(files_to_upload,table_path,url)
 # Get table as pyarrow table
 def read(files_to_upload,table_path): 
      dt = DeltaTable(table_path).to_pyarrow_table()
-     return df
+     return dt
 
 
 ###########################################################################
