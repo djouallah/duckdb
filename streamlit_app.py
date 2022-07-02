@@ -18,7 +18,7 @@ st.set_page_config(
     layout="wide",
 )
 table_path = "xxx/"
-st_autorefresh(interval=5 * 60 * 1000, key="dataframerefresh")
+st_autorefresh(interval=2 * 60 * 1000, key="dataframerefresh")
 
 # dashboard title
 st.title("Example of Delta Table and DuckDB")
