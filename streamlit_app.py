@@ -16,9 +16,9 @@ col1, col2 = st.columns([1, 1])
 def get_file_path(filename):
     return os.path.join(tempfile.gettempdir(), filename)
 
-def getfiles(Path):    
+def getfiles(Path,url):    
     
-    url = "http://nemweb.com.au/Reports/Current/Dispatch_SCADA/"
+    
     result = urlopen(url).read().decode('utf-8')
     pattern = re.compile(r'[\w.]*.zip')
     filelist1 = pattern.findall(result)
@@ -42,7 +42,7 @@ def getfiles(Path):
     files_to_upload = list(dict.fromkeys(files_to_upload)) 
     return files_to_upload
 
-def load(files_to_upload,table_path): 
+def load(files_to_upload,table_path,url): 
     if len(files_to_upload) != 0 :
       for x in files_to_upload:
             with urlopen(url+x) as source, open(get_file_path(x), 'w+b') as target:
@@ -67,9 +67,10 @@ def load(files_to_upload,table_path):
             
 
 # Define the Path to your Delta Table.
+url = "http://nemweb.com.au/Reports/Current/Dispatch_SCADA/"
 table_path = "xxx/"
-files_to_upload=getfiles(table_path)
-load(files_to_upload,table_path)
+files_to_upload=getfiles(table_path,url)
+load(files_to_upload,table_path,url)
   
 
 
