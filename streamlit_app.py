@@ -90,7 +90,7 @@ Select SETTLEMENTDATE,LOCALDATE, sum(mwh) as mwh from  xx group by all order by 
 results = results.to_pandas()
 column = results["SETTLEMENTDATE"]
 now = str (column.max())
-st.subheader("Nem  Today: " + now)
+st.subheader("Latest Updated: " + now)
 
 #localdate is just a stuid hack, Javascript read datetime as UTC not local time :(
 import altair as alt
@@ -100,7 +100,11 @@ c = alt.Chart(results).mark_area().encode( x='LOCALDATE:T', y='mwh:Q',
                                             height=600)
 st.write(c)
 
-
+st.set_page_config(
+    page_title="Example of Delta Table and DuckDB",
+    page_icon="✅",
+    layout="wide",
+)
 
 col1.button("Refresh")
 #Download Button
