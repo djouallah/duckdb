@@ -13,7 +13,7 @@ import re ,shutil
 from urllib.request import urlopen
 
 st.set_page_config(
-    page_title="Example of Delta Table and DuckDB",
+    page_title="Example of Delta Table and DuckDB, Auo refresh every 5 minutes",
     page_icon="✅",
     layout="wide",
 )
@@ -72,7 +72,7 @@ link='[Blog](https://datamonkeysite.com/2022/06/28/using-delta-lake-with-python/
 col1.markdown(link,unsafe_allow_html=True)
 
 ####################################### ETL#############################################################################
-st.subheader("Downloading New files from AEMO website, Data will be refreshed in 5 minutes, or refresh your browser ")
+#st.subheader("Downloading New files from AEMO website, Data will be refreshed in 5 minutes, or refresh your browser ")
 def get_file_path(filename):
     return os.path.join(tempfile.gettempdir(), filename)
 
@@ -130,5 +130,5 @@ def load(files_to_upload,table_path,url):
 url = "http://nemweb.com.au/Reports/Current/Dispatch_SCADA/"
 files_to_upload=getfiles(table_path,url)
 load(files_to_upload,table_path,url)
-st.write(files_to_upload)
+#st.write(files_to_upload)
 
