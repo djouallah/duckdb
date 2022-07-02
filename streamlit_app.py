@@ -1,4 +1,4 @@
-import os,base64,time
+import os,base64
 import streamlit as st
 from datetime import datetime, date, timedelta
 import urllib.request as urllib2
@@ -85,14 +85,11 @@ def read(files_to_upload,table_path):
 # Define the Path to your Delta Table.
 url = "http://nemweb.com.au/Reports/Current/Dispatch_SCADA/"
 table_path = "xxx/"
-starttime = time.time()
-while True:
-    
-    
-  files_to_upload=getfiles(table_path,url)
-  load(files_to_upload,table_path,url)
-  dt = read(files_to_upload,table_path)
-  time.sleep(60.0 - ((time.time() - starttime) % 60.0))
+ 
+files_to_upload=getfiles(table_path,url)
+load(files_to_upload,table_path,url)
+dt = read(files_to_upload,table_path)
+
 
 # Query arrow table as an ordinary SQL Table.
 con = duckdb.connect()
