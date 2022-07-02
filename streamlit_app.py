@@ -66,27 +66,22 @@ def load(files_to_upload,table_path,url):
             #print(xx)
             write_deltalake(table_path, xx,mode='append',partition_by=['Date'])
             
+@st.experimental_memo
+# Get table as pyarrow table
+def read(files_to_upload,table_path): 
+     dt = DeltaTable(table_path).to_pyarrow_table()
+     return dt
+            
 
 # Define the Path to your Delta Table.
 url = "http://nemweb.com.au/Reports/Current/Dispatch_SCADA/"
 table_path = "xxx/"
 files_to_upload=getfiles(table_path,url)
 load(files_to_upload,table_path,url)
-  
-
-
-################### Query the Table    ##################################        
-@st.experimental_memo
-# Get table as pyarrow table
-def read(files_to_upload,table_path): 
-     dt = DeltaTable(table_path).to_pyarrow_table()
-     return dt
-
-
-###########################################################################
 dt = read(files_to_upload,table_path)
-# Query arrow table as an ordinary SQL Table.
 
+
+# Query arrow table as an ordinary SQL Table.
 con = duckdb.connect()
 results =con.execute('''
 with xx as (Select SETTLEMENTDATE, (SETTLEMENTDATE - INTERVAL 10 HOUR) as LOCALDATE , DUID,MIN(SCADAVALUE) as mwh from  dt group by all)
