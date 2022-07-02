@@ -17,7 +17,7 @@ st.set_page_config(
     page_icon="✅",
     layout="wide",
 )
-
+table_path = "xxx/"
 st_autorefresh(interval=5 * 60 * 1000, key="dataframerefresh")
 
 # dashboard title
@@ -80,19 +80,11 @@ def load(files_to_upload,table_path,url):
             write_deltalake(table_path, xx,mode='append',partition_by=['Date'])
             
 
-# Get table as pyarrow table
-def read(files_to_upload,table_path): 
-     dt = DeltaTable(table_path).to_pyarrow_table()
-     return dt
-            
 
-# Define the Path to your Delta Table.
-url = "http://nemweb.com.au/Reports/Current/Dispatch_SCADA/"
-table_path = "xxx/"
- 
-files_to_upload=getfiles(table_path,url)
-load(files_to_upload,table_path,url)
-dt = read(files_to_upload,table_path)
+dt = DeltaTable(table_path).to_pyarrow_table()           
+
+
+
 
 
 # Query arrow table as an ordinary SQL Table.
@@ -139,6 +131,9 @@ col1.markdown(link,unsafe_allow_html=True)
 link='[Blog](https://datamonkeysite.com/2022/06/28/using-delta-lake-with-python/)'
 col1.markdown(link,unsafe_allow_html=True)
 
-
+# Define the Path to your Delta Table.
+url = "http://nemweb.com.au/Reports/Current/Dispatch_SCADA/"
+files_to_upload=getfiles(table_path,url)
+load(files_to_upload,table_path,url)
 st.write(files_to_upload)
 
