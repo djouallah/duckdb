@@ -114,7 +114,7 @@ st.write(c)
 col1.button("Refresh")
 #Download Button
 df=results[['SETTLEMENTDATE','mwh']]
-@st.cache
+
 def convert_df(df):
      # IMPORTANT: Cache the conversion to prevent computation on every rerun
     return df.to_csv().encode('utf-8')
