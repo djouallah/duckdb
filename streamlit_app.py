@@ -39,7 +39,7 @@ def load(Path):
 
     files_to_upload = list(set(filelist) - set(current))
     files_to_upload = list(dict.fromkeys(files_to_upload)) 
-    st.write(str(len(files_to_upload)) + ' New File Loaded')
+   
     if len(files_to_upload) != 0 :
       for x in files_to_upload:
             with urlopen(url+x) as source, open(get_file_path(x), 'w+b') as target:
@@ -61,10 +61,10 @@ def load(Path):
             xx=tb.cast(target_schema=my_schema)
             #print(xx)
             write_deltalake(table_path, xx,mode='append',partition_by=['Date'])
-            
+            return files_to_upload
 table_path = "xxx/"
-load(table_path)
-            
+files_to_upload=load(table_path)
+st.write(str(len(files_to_upload)) + ' New File Loaded')           
 ################### Query the Table    ##################################        
 import duckdb 
 from deltalake import DeltaTable
