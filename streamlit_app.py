@@ -11,12 +11,14 @@ from deltalake.writer import write_deltalake
 import duckdb 
 import re ,shutil
 from urllib.request import urlopen
-st_autorefresh(interval=5 * 60 * 1000, key="dataframerefresh")
+
 st.set_page_config(
     page_title="Example of Delta Table and DuckDB",
     page_icon="✅",
     layout="wide",
 )
+
+st_autorefresh(interval=5 * 60 * 1000, key="dataframerefresh")
 
 # dashboard title
 st.title("Example of Delta Table and DuckDB")
