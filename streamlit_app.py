@@ -67,7 +67,7 @@ def load(Path):
 # Define the Path to your Delta Table.
 table_path = "xxx/"
 files_to_upload=load(table_path)
-st.write(str(len(files_to_upload)) + ' New File Loaded')    
+st.write(files_to_upload)  
 
 
 ################### Query the Table    ##################################        
