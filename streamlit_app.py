@@ -42,6 +42,7 @@ def getfiles(Path,url):
     files_to_upload = list(dict.fromkeys(files_to_upload)) 
     return files_to_upload
 
+@st.experimental_memo
 def load(files_to_upload,table_path,url): 
     if len(files_to_upload) != 0 :
       for x in files_to_upload:
