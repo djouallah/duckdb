@@ -25,6 +25,53 @@ st.title("Example of Delta Table and DuckDB")
 
 col1, col2 = st.columns([1, 1])
 
+########################################################## Query arrow table as an ordinary SQL Table#####################################
+dt = DeltaTable(table_path).to_pyarrow_table()  
+con = duckdb.connect()
+results =con.execute('''
+with xx as (Select SETTLEMENTDATE, (SETTLEMENTDATE - INTERVAL 10 HOUR) as LOCALDATE , DUID,MIN(SCADAVALUE) as mwh from  dt group by all)
+Select SETTLEMENTDATE,LOCALDATE, sum(mwh) as mwh from  xx group by all order by SETTLEMENTDATE desc
+''').arrow()
+results = results.to_pandas()
+column = results["SETTLEMENTDATE"]
+now = str (column.max())
+st.subheader("Latest Updated: " + now)
+
+############################################################# Visualisation ##############################################################
+#localdate is just a stuid hack, Javascript read datetime as UTC not local time :(
+import altair as alt
+c = alt.Chart(results).mark_area().encode( x='LOCALDATE:T', y='mwh:Q',
+                                          tooltip=['LOCALDATE','mwh']).properties(
+                                            width=1200,
+                                            height=400)
+st.write(c)
+
+
+
+
+#Download Button
+df=results[['SETTLEMENTDATE','mwh']]
+
+def convert_df(df):
+     # IMPORTANT: Cache the conversion to prevent computation on every rerun
+    return df.to_csv().encode('utf-8')
+
+csv = convert_df(df)
+col2.download_button(
+     label="Download data as CSV",
+     data=csv,
+     file_name='large_df.csv',
+     mime='text/csv',
+ )
+
+
+link='[Data Source](http://nemweb.com.au/Reports/Current/Dispatch_SCADA/)'
+col1.markdown(link,unsafe_allow_html=True)
+
+link='[Blog](https://datamonkeysite.com/2022/06/28/using-delta-lake-with-python/)'
+col1.markdown(link,unsafe_allow_html=True)
+
+####################################### ETL#############################################################################
 
 def get_file_path(filename):
     return os.path.join(tempfile.gettempdir(), filename)
@@ -78,60 +125,8 @@ def load(files_to_upload,table_path,url):
             xx=tb.cast(target_schema=my_schema)
             #print(xx)
             write_deltalake(table_path, xx,mode='append',partition_by=['Date'])
-            
 
 
-dt = DeltaTable(table_path).to_pyarrow_table()           
-
-
-
-
-
-# Query arrow table as an ordinary SQL Table.
-con = duckdb.connect()
-results =con.execute('''
-with xx as (Select SETTLEMENTDATE, (SETTLEMENTDATE - INTERVAL 10 HOUR) as LOCALDATE , DUID,MIN(SCADAVALUE) as mwh from  dt group by all)
-Select SETTLEMENTDATE,LOCALDATE, sum(mwh) as mwh from  xx group by all order by SETTLEMENTDATE desc
-''').arrow()
-results = results.to_pandas()
-column = results["SETTLEMENTDATE"]
-now = str (column.max())
-st.subheader("Latest Updated: " + now)
-
-#localdate is just a stuid hack, Javascript read datetime as UTC not local time :(
-import altair as alt
-c = alt.Chart(results).mark_area().encode( x='LOCALDATE:T', y='mwh:Q',
-                                          tooltip=['LOCALDATE','mwh']).properties(
-                                            width=1200,
-                                            height=400)
-st.write(c)
-
-
-
-
-#Download Button
-df=results[['SETTLEMENTDATE','mwh']]
-
-def convert_df(df):
-     # IMPORTANT: Cache the conversion to prevent computation on every rerun
-    return df.to_csv().encode('utf-8')
-
-csv = convert_df(df)
-col2.download_button(
-     label="Download data as CSV",
-     data=csv,
-     file_name='large_df.csv',
-     mime='text/csv',
- )
-#######################################33
-
-link='[Data Source](http://nemweb.com.au/Reports/Current/Dispatch_SCADA/)'
-col1.markdown(link,unsafe_allow_html=True)
-
-link='[Blog](https://datamonkeysite.com/2022/06/28/using-delta-lake-with-python/)'
-col1.markdown(link,unsafe_allow_html=True)
-
-# Define the Path to your Delta Table.
 url = "http://nemweb.com.au/Reports/Current/Dispatch_SCADA/"
 files_to_upload=getfiles(table_path,url)
 load(files_to_upload,table_path,url)
