@@ -10,6 +10,11 @@ from deltalake.writer import write_deltalake
 import duckdb 
 import re ,shutil
 from urllib.request import urlopen
+st.set_page_config(
+    page_title="Example of Delta Table and DuckDB",
+    page_icon="✅",
+    layout="wide",
+)
 col1, col2 = st.columns([1, 1])
 
 
@@ -100,11 +105,7 @@ c = alt.Chart(results).mark_area().encode( x='LOCALDATE:T', y='mwh:Q',
                                             height=600)
 st.write(c)
 
-st.set_page_config(
-    page_title="Example of Delta Table and DuckDB",
-    page_icon="✅",
-    layout="wide",
-)
+
 
 col1.button("Refresh")
 #Download Button
