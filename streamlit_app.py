@@ -75,7 +75,7 @@ def load(files_to_upload,table_path,url):
             #print(xx)
             write_deltalake(table_path, xx,mode='append',partition_by=['Date'])
             
-@st.experimental_memo
+
 # Get table as pyarrow table
 def read(files_to_upload,table_path): 
      dt = DeltaTable(table_path).to_pyarrow_table()
