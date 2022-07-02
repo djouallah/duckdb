@@ -116,7 +116,7 @@ st.write(c)
 
 
 
-col1.button("Refresh")
+
 #Download Button
 df=results[['SETTLEMENTDATE','mwh']]
 
