@@ -137,7 +137,7 @@ def convert_df(df):
     return df.to_csv().encode('utf-8')
 
 csv = convert_df(df)
-st.download_button(
+col2.download_button(
      label="Download data as CSV",
      data=csv,
      file_name='large_df.csv',
