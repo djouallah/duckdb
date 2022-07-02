@@ -16,7 +16,7 @@ col1, col2 = st.columns([1, 1])
 def get_file_path(filename):
     return os.path.join(tempfile.gettempdir(), filename)
 
-def load(Path):    
+def getfiles(Path):    
     
     url = "http://nemweb.com.au/Reports/Current/Dispatch_SCADA/"
     result = urlopen(url).read().decode('utf-8')
@@ -40,7 +40,9 @@ def load(Path):
 
     files_to_upload = list(set(filelist) - set(current))
     files_to_upload = list(dict.fromkeys(files_to_upload)) 
-   
+    return files_to_upload
+
+def load(files_to_upload,table_path): 
     if len(files_to_upload) != 0 :
       for x in files_to_upload:
             with urlopen(url+x) as source, open(get_file_path(x), 'w+b') as target:
@@ -62,11 +64,12 @@ def load(Path):
             xx=tb.cast(target_schema=my_schema)
             #print(xx)
             write_deltalake(table_path, xx,mode='append',partition_by=['Date'])
-            return files_to_upload
+            
 
 # Define the Path to your Delta Table.
 table_path = "xxx/"
-files_to_upload=load(table_path)
+files_to_upload=getfiles(table_path)
+load(files_to_upload,table_path)
   
 
 
