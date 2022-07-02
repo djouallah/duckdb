@@ -111,7 +111,7 @@ import altair as alt
 c = alt.Chart(results).mark_area().encode( x='LOCALDATE:T', y='mwh:Q',
                                           tooltip=['LOCALDATE','mwh']).properties(
                                             width=1200,
-                                            height=600)
+                                            height=300)
 st.write(c)
 
 
