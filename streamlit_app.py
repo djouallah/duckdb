@@ -7,6 +7,7 @@ import pandas as pd
 import pyarrow as pa
 from deltalake import DeltaTable
 from deltalake.writer import write_deltalake
+import duckdb 
 import re ,shutil
 from urllib.request import urlopen
 col1, col2 = st.columns([1, 1])
@@ -66,12 +67,11 @@ def load(Path):
 # Define the Path to your Delta Table.
 table_path = "xxx/"
 files_to_upload=load(table_path)
-   
+st.write(str(len(files_to_upload)) + ' New File Loaded')    
 
 
 ################### Query the Table    ##################################        
-import duckdb 
-from deltalake import DeltaTable
+
 # Get table as pyarrow table
 dt = DeltaTable(table_path).to_pyarrow_table()
 
@@ -113,7 +113,7 @@ def download_link(object_to_download, download_filename, download_link_text):
 
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
-st.write(str(len(files_to_upload)) + ' New File Loaded') 
+
 col1.button("Refresh")
 df=results[['SETTLEMENTDATE','mwh']]
 tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Export results')
