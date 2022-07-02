@@ -67,7 +67,7 @@ def load(Path):
 # Define the Path to your Delta Table.
 table_path = "xxx/"
 files_to_upload=load(table_path)
-st.write(files_to_upload)  
+  
 
 
 ################### Query the Table    ##################################        
@@ -124,3 +124,5 @@ col2.markdown(link,unsafe_allow_html=True)
 
 link='[Data Source](http://nemweb.com.au/Reports/Current/Dispatch_SCADA/)'
 col1.markdown(link,unsafe_allow_html=True)
+
+st.write(files_to_upload)
