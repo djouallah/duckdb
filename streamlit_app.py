@@ -132,11 +132,13 @@ col2.download_button(
      mime='text/csv',
  )
 #######################################33
-link='[Blog](https://datamonkeysite.com/2022/06/28/using-delta-lake-with-python/)'
-col2.markdown(link,unsafe_allow_html=True)
 
 link='[Data Source](http://nemweb.com.au/Reports/Current/Dispatch_SCADA/)'
 col1.markdown(link,unsafe_allow_html=True)
+
+link='[Blog](https://datamonkeysite.com/2022/06/28/using-delta-lake-with-python/)'
+col1.markdown(link,unsafe_allow_html=True)
+
 
 st.write(files_to_upload)
 
