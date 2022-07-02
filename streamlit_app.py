@@ -131,3 +131,10 @@ link='[Data Source](http://nemweb.com.au/Reports/Current/Dispatch_SCADA/)'
 col1.markdown(link,unsafe_allow_html=True)
 
 st.write(files_to_upload)
+
+st.download_button(
+     label="Download data as CSV",
+     data=df,
+     file_name='large_df.csv',
+     mime='text/csv',
+ )
