@@ -21,7 +21,7 @@ table_path = "xxx/"
 st_autorefresh(interval=4 * 60 * 1000, key="dataframerefresh")
 
 # dashboard title
-st.title("Example of Delta Table and DuckDB, Auo refresh every 5 minutes")
+st.title("Example of Delta Table and DuckDB, Auto refresh every 5 minutes")
 
 col1, col2 = st.columns([1, 1])
 
