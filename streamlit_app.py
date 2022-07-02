@@ -14,7 +14,7 @@ col1, col2 = st.columns([1, 1])
 
 def get_file_path(filename):
     return os.path.join(tempfile.gettempdir(), filename)
-@st.experimental_memo
+
 def load(Path):    
     
     url = "http://nemweb.com.au/Reports/Current/Dispatch_SCADA/"
@@ -62,14 +62,16 @@ def load(Path):
             #print(xx)
             write_deltalake(table_path, xx,mode='append',partition_by=['Date'])
             return files_to_upload
+
+# Define the Path to your Delta Table.
 table_path = "xxx/"
 files_to_upload=load(table_path)
-st.write(str(len(files_to_upload)) + ' New File Loaded')           
+   
+
+
 ################### Query the Table    ##################################        
 import duckdb 
 from deltalake import DeltaTable
-# Define the Path to your Delta Table.
-
 # Get table as pyarrow table
 dt = DeltaTable(table_path).to_pyarrow_table()
 
@@ -111,7 +113,7 @@ def download_link(object_to_download, download_filename, download_link_text):
 
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
-
+st.write(str(len(files_to_upload)) + ' New File Loaded') 
 col1.button("Refresh")
 df=results[['SETTLEMENTDATE','mwh']]
 tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Export results')
