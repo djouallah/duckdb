@@ -45,12 +45,12 @@ c = alt.Chart(results).mark_area().encode( x='LOCALDATE:T', y='mwh:Q',
                                             width=1200,
                                             height=400)
 st.write(c)
-
-st.dataframe(results)
+df=results[['SETTLEMENTDATE','mwh']]
+st.dataframe(df)
 
 ###########################################################Buttons and Links #############################################################
 #Download Button
-df=results[['SETTLEMENTDATE','mwh']]
+
 
 def convert_df(df):
      # IMPORTANT: Cache the conversion to prevent computation on every rerun
