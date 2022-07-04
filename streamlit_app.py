@@ -46,9 +46,9 @@ c = alt.Chart(results).mark_area().encode( x='LOCALDATE:T', y='mwh:Q',
                                             height=400)
 st.write(c)
 
+st.dataframe(results)
 
-
-
+###########################################################Buttons and Links #############################################################
 #Download Button
 df=results[['SETTLEMENTDATE','mwh']]
 
