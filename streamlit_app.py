@@ -36,15 +36,15 @@ col1, col2 = st.columns([1, 1])
 ########################################################## Query arrow table as an ordinary SQL Table#####################################
 try:
    dt = DeltaTable(table_path).to_pyarrow_table()
+   con = duckdb.connect()
+   results =con.execute('''
+     with xx as (Select SETTLEMENTDATE, (SETTLEMENTDATE - INTERVAL 10 HOUR) as LOCALDATE , DUID,MIN(SCADAVALUE) as mwh from  dt group by all)
+     Select SETTLEMENTDATE,LOCALDATE, sum(mwh) as mwh from  xx group by all order by SETTLEMENTDATE desc
+      ''').arrow()
+   results = results.to_pandas()
 except:
-    df=pd.DataFrame(columns=['SETTLEMENTDATE','DUID','SCADAVALUE','Date','file'])
-    dt =pa.Table.from_pandas(df)
-con = duckdb.connect()
-results =con.execute('''
-with xx as (Select SETTLEMENTDATE, (SETTLEMENTDATE - INTERVAL 10 HOUR) as LOCALDATE , DUID,MIN(SCADAVALUE) as mwh from  dt group by all)
-Select SETTLEMENTDATE,LOCALDATE, sum(mwh) as mwh from  xx group by all order by SETTLEMENTDATE desc
-''').arrow()
-results = results.to_pandas()
+    results=pd.DataFrame(columns=['SETTLEMENTDATE','DUID','SCADAVALUE','Date','file'])
+    
 column = results["SETTLEMENTDATE"]
 now = str (column.max())
 st.subheader("Latest Updated: " + now)
