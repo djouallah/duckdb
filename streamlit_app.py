@@ -19,6 +19,14 @@ st.set_page_config(
 )
 table_path = "xxx/"
 st_autorefresh(interval=4 * 60 * 1000, key="dataframerefresh")
+my_schema = pa.schema([
+                      pa.field('SETTLEMENTDATE', pa.timestamp('us')),
+                      pa.field('DUID', pa.string()),
+                      pa.field('SCADAVALUE', pa.float64()),
+                      pa.field('Date', pa.date32()),
+                      pa.field('file', pa.string())
+                      ])
+                                                       
 
 # dashboard title
 st.title("Example of Delta Table and DuckDB, Auto refresh every 5 minutes")
@@ -27,7 +35,9 @@ col1, col2 = st.columns([1, 1])
 
 ########################################################## Query arrow table as an ordinary SQL Table#####################################
 try:
-   dt = DeltaTable(table_path).to_pyarrow_table()  
+   dt = DeltaTable(table_path).to_pyarrow_table()
+except:
+    dt = pa.Table.from_pylist(pylist, schema=my_schema).schema
 con = duckdb.connect()
 results =con.execute('''
 with xx as (Select SETTLEMENTDATE, (SETTLEMENTDATE - INTERVAL 10 HOUR) as LOCALDATE , DUID,MIN(SCADAVALUE) as mwh from  dt group by all)
@@ -115,14 +125,7 @@ def load(files_to_upload,table_path,url):
             df['Date'] = df['SETTLEMENTDATE'].dt.date
             df['file'] = x
             tb=pa.Table.from_pandas(df,preserve_index=False)
-            my_schema = pa.schema([
-                      pa.field('SETTLEMENTDATE', pa.timestamp('us')),
-                      pa.field('DUID', pa.string()),
-                      pa.field('SCADAVALUE', pa.float64()),
-                      pa.field('Date', pa.date32()),
-                      pa.field('file', pa.string())
-                      ]
-                                                       )
+            
             xx=tb.cast(target_schema=my_schema)
             #print(xx)
             write_deltalake(table_path, xx,mode='append',partition_by=['Date'])
