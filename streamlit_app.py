@@ -28,8 +28,6 @@ col1, col2 = st.columns([1, 1])
 ########################################################## Query arrow table as an ordinary SQL Table#####################################
 try:
    dt = DeltaTable(table_path).to_pyarrow_table()  
-except:
-    dt= null
 con = duckdb.connect()
 results =con.execute('''
 with xx as (Select SETTLEMENTDATE, (SETTLEMENTDATE - INTERVAL 10 HOUR) as LOCALDATE , DUID,MIN(SCADAVALUE) as mwh from  dt group by all)
