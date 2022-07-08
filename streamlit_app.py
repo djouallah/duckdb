@@ -43,7 +43,7 @@ try:
       ''').arrow()
    results = results.to_pandas()
 except:
-    results=pd.DataFrame(columns=['SETTLEMENTDATE','DUID','SCADAVALUE','Date','file'])
+    results=pd.DataFrame(columns=['LOCALDATE','mwh','SETTLEMENTDATE'])
     
 column = results["SETTLEMENTDATE"]
 now = str (column.max())
