@@ -43,6 +43,7 @@ try:
       ''').arrow()
    results = results.to_pandas()
 except:
+    st.write('first run will take time')
     results=pd.DataFrame(columns=['LOCALDATE','mwh','SETTLEMENTDATE'])
     
 column = results["SETTLEMENTDATE"]
