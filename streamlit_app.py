@@ -38,6 +38,10 @@ try:
    dt = DeltaTable(table_path).to_pyarrow_table()
 except:
     SETTLEMENTDATE =pa.array([])
+    DUID =pa.array([])
+    SCADAVALUE =pa.array([])
+    Date =pa.array([])
+    file =pa.array([])
     dt = pa.Table.from_arrays([SETTLEMENTDATE, DUID,SCADAVALUE,Date,file], schema=my_schema).schema
 con = duckdb.connect()
 results =con.execute('''
