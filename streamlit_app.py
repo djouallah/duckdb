@@ -37,7 +37,8 @@ col1, col2 = st.columns([1, 1])
 try:
    dt = DeltaTable(table_path).to_pyarrow_table()
 except:
-    dt = pa.Table([SETTLEMENTDATE, DUID,SCADAVALUE,Date,file], schema=my_schema).schema
+    SETTLEMENTDATE =pa.array([])
+    dt = pa.Table.from_arrays([SETTLEMENTDATE, DUID,SCADAVALUE,Date,file], schema=my_schema).schema
 con = duckdb.connect()
 results =con.execute('''
 with xx as (Select SETTLEMENTDATE, (SETTLEMENTDATE - INTERVAL 10 HOUR) as LOCALDATE , DUID,MIN(SCADAVALUE) as mwh from  dt group by all)
