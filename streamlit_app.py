@@ -41,7 +41,7 @@ except:
     DUID =pa.array([])
     SCADAVALUE =pa.array([])
     Date =pa.array([])
-    file =pa.array([])
+    file =pa.array([null])
     dt = pa.Table.from_arrays([SETTLEMENTDATE, DUID,SCADAVALUE,Date,file], schema=my_schema).schema
 con = duckdb.connect()
 results =con.execute('''
